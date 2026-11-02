@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RV University - Student Portal Login</title>
+    <link rel="stylesheet" href="./src/style.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-navbar {
+            background-color: #0A2240;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .back-link {
+            color: #F2A900;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .card-container {
+            max-width: 420px;
+            width: 90%;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+            background-color: #ffffff;
+            text-align: center;
+        }
+
+        .card-header {
+            background-color: #0A2240;
+            padding: 18px;
+            border-radius: 6px;
+            margin-bottom: 24px;
+        }
+
+        .card-title {
+            color: #F2A900;
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .card-subtitle {
+            color: #ffffff;
+            margin: 6px 0 0 0;
+            font-size: 13px;
+        }
+
+        .form-title {
+            color: #0A2240;
+            font-size: 20px;
+            margin-bottom: 18px;
+            font-weight: 600;
+        }
+
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+            transition: 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background-color: #0A2240;
+            color: #F2A900;
+        }
+
+        .tab-btn.inactive {
+            background-color: #e0e0e0;
+            color: #444;
+        }
+
+        .tab-btn.inactive:hover {
+            background-color: #d0d0d0;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            text-align: left;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .auth-input {
+            padding: 12px;
+            border-radius: 4px;
+            border: 1px solid #cccccc;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .auth-input:focus {
+            border-color: #0A2240;
+        }
+
+        .submit-btn {
+            padding: 13px;
+            background-color: #F2A900;
+            color: #0A2240;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: opacity 0.2s;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.92;
+        }
+
+        .msg-box {
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .msg-box.success {
+            display: block;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .msg-box.error {
+            display: block;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="login-navbar">
+        <a href="index.html" class="back-link">← Return to Campus Connect</a>
+        <span style="color: #ffffff; font-size: 13px;">School of Computer Science & Engineering</span>
+    </header>
+
+    <main>
+        <div class="card-container">
+            <div class="card-header">
+                <h1 class="card-title">RV UNIVERSITY</h1>
+                <p class="card-subtitle">Excellence in Education</p>
+            </div>
+
+            <div id="msgBox" class="msg-box"></div>
+
+            <h2 id="formTitle" class="form-title">Student Login</h2>
+
+            <div class="tab-container">
+                <button id="loginTabBtn" type="button" class="tab-btn active" onclick="switchMode('login')">
+                    Login
+                </button>
+                <button id="registerTabBtn" type="button" class="tab-btn inactive" onclick="switchMode('register')">
+                    Register
+                </button>
+            </div>
+
+            <form id="authForm" class="auth-form" onsubmit="handleAuthSubmit(event)">
+                <div id="nameGroup" class="form-group" style="display: none;">
+                    <label for="nameInput">Full Name</label>
+                    <input id="nameInput" type="text" class="auth-input" placeholder="Name of the student">
+                </div>
+
+                <div class="form-group">
+                    <label for="emailInput">RVU Email Address</label>
+                    <input id="emailInput" type="email" class="auth-input" placeholder="student@rvu.edu.in" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="passwordInput">Password</label>
+                    <input id="passwordInput" type="password" class="auth-input" placeholder="Enter password" required>
+                </div>
+
+                <button id="submitBtn" type="submit" class="submit-btn">
+                    Sign In to Portal
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        let currentMode = 'login';
+
+        function switchMode(mode) {
+            currentMode = mode;
+            const formTitle = document.getElementById('formTitle');
+            const loginBtn = document.getElementById('loginTabBtn');
+            const registerBtn = document.getElementById('registerTabBtn');
+            const nameGroup = document.getElementById('nameGroup');
+            const nameInput = document.getElementById('nameInput');
+            const submitBtn = document.getElementById('submitBtn');
+            const msgBox = document.getElementById('msgBox');
+
+            msgBox.className = 'msg-box';
+            msgBox.style.display = 'none';
+
+            if (mode === 'register') {
+                formTitle.innerText = 'Student Registration';
+                loginBtn.className = 'tab-btn inactive';
+                registerBtn.className = 'tab-btn active';
+                nameGroup.style.display = 'flex';
+                nameInput.required = true;
+                submitBtn.innerText = 'Create Student Account';
+                window.location.hash = 'register';
+            } else {
+                formTitle.innerText = 'Student Login';
+                loginBtn.className = 'tab-btn active';
+                registerBtn.className = 'tab-btn inactive';
+                nameGroup.style.display = 'none';
+                nameInput.required = false;
+                submitBtn.innerText = 'Sign In to Portal';
+                window.location.hash = 'login';
+            }
+        }
+
+        // Initialize mode based on URL hash
+        if (window.location.hash === '#register') {
+            switchMode('register');
+        }
+
+        window.addEventListener('hashchange', () => {
+            if (window.location.hash === '#register') {
+                switchMode('register');
+            } else if (window.location.hash === '#login') {
+                switchMode('login');
+            }
+        });
+
+        async function handleAuthSubmit(event) {
+            event.preventDefault();
+            const email = document.getElementById('emailInput').value.trim();
+            const password = document.getElementById('passwordInput').value.trim();
+            const name = document.getElementById('nameInput').value.trim();
+            const msgBox = document.getElementById('msgBox');
+            const submitBtn = document.getElementById('submitBtn');
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Please wait...';
+
+            try {
+                // Try backend API if available, or fallback gracefully
+                const endpoint = currentMode === 'login' ? '/api/auth/login' : '/api/auth/register';
+                const payload = currentMode === 'login' ? { email, password } : { name, email, password };
+                
+                let res;
+                try {
+                    res = await fetch(`http://localhost:5000${endpoint}`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                } catch (netErr) {
+                    // Fallback to local session storage if server not running
+                    console.log("Server offline, continuing locally", netErr);
+                }
+
+                if (res && res.ok) {
+                    const data = await res.json();
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user || { name, email }));
+                } else {
+                    localStorage.setItem('user', JSON.stringify({ name: name || email.split('@')[0], email }));
+                }
+
+                if (currentMode === 'register') {
+                    alert(`🎉 Registration Successful!\n\nWelcome to Campus Connect, ${name || 'Student'}! Your student account has been created successfully.`);
+                    // Switch to login tab or proceed
+                    switchMode('login');
+                    document.getElementById('emailInput').value = email;
+                    document.getElementById('passwordInput').value = '';
+                    submitBtn.disabled = false;
+                    submitBtn.innerText = 'Sign In to Portal';
+                } else {
+                    alert(`✅ Login Successful!\n\nWelcome back to Campus Connect!`);
+                    window.location.href = 'attendance.html';
+                }
+
+            } catch (error) {
+                msgBox.className = 'msg-box error';
+                msgBox.innerText = 'An error occurred. Please check your credentials.';
+                msgBox.style.display = 'block';
+                submitBtn.disabled = false;
+                submitBtn.innerText = currentMode === 'login' ? 'Sign In to Portal' : 'Create Student Account';
+            }
+        }
+    </script>
+</body>
+</html>

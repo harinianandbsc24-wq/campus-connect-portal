@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript DOM Experiment</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1 id="heading">My Task List</h1>
+        <p>JavaScript DOM Manipulation</p>
+    </header>
+
+    <main>
+
+        <section>
+            <h2>Button Event</h2>
+
+            <button id="changeBtn">Change Heading</button>
+            <button id="colorBtn">Toggle Color</button>
+        </section>
+
+        <section>
+            <h2>Live Text Input</h2>
+
+            <input
+                type="text"
+                id="nameInput"
+                placeholder="Type your name"
+            >
+
+            <p id="displayText">
+                Your name will appear here.
+            </p>
+        </section>
+
+        <section>
+            <h2>Add a Task</h2>
+
+            <input
+                type="text"
+                id="taskInput"
+                placeholder="Enter a task"
+            >
+
+            <button id="addBtn">Add Task</button>
+
+            <ul id="taskList">
+
+                <li>
+                    Learn HTML
+                    <button class="removeBtn">Remove</button>
+                </li>
+
+                <li>
+                    Learn CSS
+                    <button class="removeBtn">Remove</button>
+                </li>
+
+            </ul>
+        </section>
+
+        <section>
+            <h2>Keyboard Event</h2>
+
+            <input
+                type="text"
+                id="keyInput"
+                placeholder="Press a key"
+            >
+
+            <p id="keyOutput">
+                Press any key to see the result.
+            </p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2026 JavaScript Experiment</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
