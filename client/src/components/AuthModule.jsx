@@ -1,16 +1,24 @@
-import { useState } from 'react';
+import React from 'react';
 
+export default function AuthModule({ activeTab, setActiveTab, initialMode = 'login' }) {
+  const [internalMode, setInternalMode] = React.useState(
+    activeTab ? activeTab === 'login' : initialMode === 'login'
+  );
 
-export default function AuthModule({ initialMode = 'login' }) {
-  const [isLogin, setIsLogin] = useState(initialMode === 'login');
+  const isLogin = activeTab !== undefined ? activeTab === 'login' : internalMode;
 
+  const setLoginMode = (login) => {
+    setInternalMode(login);
+    if (setActiveTab) {
+      setActiveTab(login ? 'login' : 'register');
+    }
+  };
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = React.useState({
     name: '',
     email: '',
     password: ''
   });
-
 
   const handleChange = (e) => {
     setFormData({
@@ -19,16 +27,17 @@ export default function AuthModule({ initialMode = 'login' }) {
     });
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (isLogin) {
       alert(`Logging in with: ${formData.email}`);
+      window.location.hash = '#student';
     } else {
-      alert(`RVU Student Registered: ${formData.name} (${formData.email})`);
+      alert(`New Student Registered: ${formData.name}`);
+      setLoginMode(true);
     }
   };
-
 
   return (
     <div style={styles.cardContainer}>
@@ -37,27 +46,25 @@ export default function AuthModule({ initialMode = 'login' }) {
         <p style={styles.subtitle}>Excellence in Education</p>
       </div>
 
-
       <h2 style={styles.formTitle}>
         {isLogin ? 'Student Login' : 'Student Registration'}
       </h2>
 
-
       <div style={styles.tabContainer}>
         <button
           style={isLogin ? styles.activeTab : styles.inactiveTab}
-          onClick={() => setIsLogin(true)}
+          onClick={() => setLoginMode(true)}
         >
           Login
         </button>
+
         <button
           style={!isLogin ? styles.activeTab : styles.inactiveTab}
-          onClick={() => setIsLogin(false)}
+          onClick={() => setLoginMode(false)}
         >
           Register
         </button>
       </div>
-
 
       <form onSubmit={handleSubmit} style={styles.form}>
         {!isLogin && (
@@ -72,7 +79,6 @@ export default function AuthModule({ initialMode = 'login' }) {
           />
         )}
 
-
         <input
           type="email"
           name="email"
@@ -82,7 +88,6 @@ export default function AuthModule({ initialMode = 'login' }) {
           style={styles.input}
           required
         />
-
 
         <input
           type="password"
@@ -94,7 +99,6 @@ export default function AuthModule({ initialMode = 'login' }) {
           required
         />
 
-
         <button type="submit" style={styles.submitBtn}>
           {isLogin ? 'Sign In to Portal' : 'Create Student Account'}
         </button>
@@ -102,7 +106,6 @@ export default function AuthModule({ initialMode = 'login' }) {
     </div>
   );
 }
-
 
 const styles = {
   cardContainer: {
@@ -115,34 +118,40 @@ const styles = {
     textAlign: 'center',
     fontFamily: 'Arial, sans-serif'
   },
+
   header: {
     backgroundColor: '#0A2240',
     padding: '15px',
     borderRadius: '6px',
     marginBottom: '20px'
   },
+
   title: {
     color: '#F2A900',
     margin: 0,
     fontSize: '22px',
     letterSpacing: '1px'
   },
+
   subtitle: {
     color: '#ffffff',
     margin: '4px 0 0 0',
     fontSize: '12px'
   },
+
   formTitle: {
     color: '#0A2240',
     fontSize: '18px',
     marginBottom: '15px'
   },
+
   tabContainer: {
     display: 'flex',
-    justify: 'center',
+    justifyContent: 'center',
     gap: '10px',
     marginBottom: '20px'
   },
+
   activeTab: {
     flex: 1,
     padding: '10px',
@@ -153,6 +162,7 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer'
   },
+
   inactiveTab: {
     flex: 1,
     padding: '10px',
@@ -162,11 +172,13 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer'
   },
+
   form: {
     display: 'flex',
     flexDirection: 'column',
     gap: '15px'
   },
+
   input: {
     padding: '12px',
     borderRadius: '4px',
@@ -174,6 +186,7 @@ const styles = {
     fontSize: '14px',
     outline: 'none'
   },
+
   submitBtn: {
     padding: '12px',
     backgroundColor: '#F2A900',

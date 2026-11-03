@@ -2,10 +2,11 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.jsx';
-
-// Mounts React specifically to your auth-root div in index.html
+import { BrowserRouter } from 'react-router-dom';
 createRoot(document.getElementById('auth-root')).render(
   <StrictMode>
-    <App />
-  </StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>,
 );
